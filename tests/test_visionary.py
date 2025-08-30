@@ -5,6 +5,13 @@ Provides comprehensive pytest suite covering core classes,
 methods, fixture management for test data, and performance benchmarks.
 """
 
+import sys
+import os
+
+# Add src folder to sys.path for imports
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+
 import pytest
 import numpy as np
 import cv2

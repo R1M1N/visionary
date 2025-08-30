@@ -7,7 +7,7 @@ and batch file processing capabilities.
 
 import os
 from pathlib import Path
-from typing import List, Callable
+from typing import List, Callable, Union
 
 class FileUtils:
     @staticmethod
@@ -75,3 +75,27 @@ class FileUtils:
         """
         p = Path(path).expanduser().resolve()
         return str(p)
+def list_files_with_extensions(directory: str, extensions: Union[str, List[str]]) -> List[str]:
+    """
+    List files in a directory with specific extensions.
+    
+    Args:
+        directory: Directory path to search
+        extensions: File extension(s) to filter by (e.g., '.py' or ['.py', '.txt'])
+    
+    Returns:
+        List of file paths matching the extensions
+    """
+    if isinstance(extensions, str):
+        extensions = [extensions]
+    
+    # Ensure extensions start with a dot
+    extensions = [ext if ext.startswith('.') else '.' + ext for ext in extensions]
+    
+    files = []
+    for root, dirs, filenames in os.walk(directory):
+        for filename in filenames:
+            if any(filename.lower().endswith(ext.lower()) for ext in extensions):
+                files.append(os.path.join(root, filename))
+    
+    return files

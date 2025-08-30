@@ -8,7 +8,9 @@ Provides image loading, preprocessing, batch processing,
 
 import cv2
 import numpy as np
-from typing import List, Callable, Optional
+from pathlib import Path  # Add this import
+from typing import List, Callable, Optional  # Add List to this import
+
 
 class ImageUtils:
     @staticmethod
@@ -78,3 +80,31 @@ class ImageUtils:
             Converted image ndarray
         """
         return cv2.cvtColor(image, conversion_code)
+
+class ImageSink:
+    """
+    Save image frames to disk with a sequential naming scheme.
+    """
+    def __init__(self, output_dir: str, prefix: str = 'frame_', 
+                 extension: str = '.png', start_index: int = 0):
+        self.output_dir = Path(output_dir)
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.prefix = prefix
+        self.extension = extension
+        self.index = start_index
+
+    def write(self, image: np.ndarray):
+        filename = f"{self.prefix}{self.index:06d}{self.extension}"
+        path = self.output_dir / filename
+        cv2.imwrite(str(path), image)
+        self.index += 1
+
+    def reset(self, start_index: int = 0):
+        self.index = start_index
+
+def list_files_with_extensions(directory: str, extensions: List[str]) -> List[Path]:
+    """
+    Convenience wrapper to list only files matching the given extensions.
+    """
+    from .file import FileUtils
+    return FileUtils.list_files(directory, extensions)

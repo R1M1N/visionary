@@ -9,7 +9,14 @@ __email__ = "team@visionary.ai"
 
 # Core imports
 from visionary.detection.core import Detections
-from visionary.trackers import ByteTracker
+# visionary/__init__.py
+
+try:
+    from visionary.trackers import ByteTracker
+except ImportError:
+    ByteTracker = None
+
+# import other modules
 
 # Annotators
 from visionary.annotators import (

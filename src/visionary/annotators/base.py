@@ -16,7 +16,7 @@ import warnings
 
 class ColorPalette:
     """Predefined color palettes for consistent annotation styling."""
-    
+    DEFAULT = [(255, 64, 64), (64, 255, 64), (64, 64, 255), (255, 255, 64), (255, 64, 255), (64, 255, 255)]
     # Basic colors (BGR format for OpenCV)
     RED = (0, 0, 255)
     GREEN = (0, 255, 0)

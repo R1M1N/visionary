@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import unittest
 from visionary.annotators.base import BaseAnnotator
-from visionary.annotators.geometric import *
+from visionary.annotators.geometry import *
 from visionary.annotators.advanced_visual import *
 from visionary.annotators.temporal_privacy import *
 
@@ -21,8 +21,34 @@ class DummyDetections:
         self.mask[0][20:81, 20:81] = 1
         self.mask[1][100:161, 100:161] = 1
 
+    def __iter__(self):
+        """Make DummyDetections iterable"""
+        # Return iterator over detection dictionaries with 'bbox' key
+        return iter([
+            {'bbox': bbox, 'xyxy': bbox, 'class_id': cid, 'confidence': conf, 'tracker_id': tid, 'mask': msk}
+            for bbox, cid, conf, tid, msk in zip(
+                self.xyxy, self.class_id, self.confidence, self.tracker_id, self.mask
+            )
+        ])
+
+    def __getitem__(self, index):
+        """Allow indexing like detections[0]"""
+        return {
+            'bbox': self.xyxy[index],
+            'xyxy': self.xyxy[index],
+            'class_id': self.class_id[index],
+            'confidence': self.confidence[index],
+            'tracker_id': self.tracker_id[index],
+            'mask': self.mask[index]
+        }
+    
     def __len__(self):
         return len(self.xyxy)
+    
+    def __bool__(self):
+        """Return True if detections exist"""
+        return len(self.xyxy) > 0
+    
 
 class AnnotatorsTestCase(unittest.TestCase):
     def setUp(self):
