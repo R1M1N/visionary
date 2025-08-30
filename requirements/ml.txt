@@ -1,0 +1,14 @@
+# Deep learning frameworks (optional)
+torch>=1.11.0; extra == "torch"
+torchvision>=0.12.0; extra == "torch"
+onnxruntime>=1.12.0; extra == "onnx"
+
+# Model integration
+ultralytics>=8.0.0; extra == "ultralytics"
+transformers>=4.20.0; extra == "transformers"
+mmcv>=2.0.0; extra == "mmcv"
+detectron2; extra == "detectron2"
+
+# Specialized models
+segment-anything; extra == "sam"
+groundingdino-py; extra == "grounding_dino"
