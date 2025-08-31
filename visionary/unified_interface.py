@@ -39,6 +39,8 @@ class VisionaryAPI:
                 input_data: Union[str, Path, "np.ndarray", "PIL.Image"],
                 task: Union[str, TaskType],
                 model: Optional[Union[str, ModelType]] = None,
+                save=False, 
+                save_dir="output",
                 **kwargs) -> Dict[str, Any]:
         """
         Main processing function that automatically handles any CV task.
@@ -69,7 +71,8 @@ class VisionaryAPI:
             
             # Process the input
             results = processor.process(input_data, task_config)
-            
+            if save:
+                self._save_results(input_data, results, save_dir, task, **kwargs)
             return {
                 'results': results,
                 'metadata': {
@@ -138,3 +141,53 @@ class VisionaryAPI:
             level=getattr(logging, level.upper()),
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
+
+    def _save_results(self, input_path, result, save_dir, task, **kwargs):
+        """Save processing results."""
+        import os
+        import cv2
+        import json
+        from pathlib import Path
+        
+        # Create output directory
+        os.makedirs(save_dir, exist_ok=True)
+        
+        input_name = Path(input_path).stem
+        
+        if task == "detection":
+            # Save annotated image
+            image = cv2.imread(input_path)
+            predictions = result.get('results', {}).get('predictions', [])
+            
+            # Draw bounding boxes
+            for pred in predictions:
+                if 'box' in pred:
+                    x1, y1, x2, y2 = pred['box']
+                    cls = pred.get('class', 'unknown')
+                    conf = pred.get('confidence', 0.0)
+                    
+                    cv2.rectangle(image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+                    label = f"{cls}: {conf:.2f}"
+                    cv2.putText(image, label, (int(x1), int(y1-10)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            
+            output_path = os.path.join(save_dir, f"{input_name}_detected.jpg")
+            cv2.imwrite(output_path, image)
+            print(f"✅ Saved annotated image: {output_path}")
+            
+            # Save detection data
+            json_path = os.path.join(save_dir, f"{input_name}_detections.json")
+            with open(json_path, 'w') as f:
+                json.dump(result, f, indent=2)
+            print(f"💾 Saved detection data: {json_path}")
+            
+        elif task == "video_tracking":
+            # For video tracking, save the output video with tracks
+            # This requires more complex implementation
+            print(f"🎬 Video tracking results processed for {input_path}")
+            
+            # Save tracking data
+            json_path = os.path.join(save_dir, f"{input_name}_tracking.json") 
+            with open(json_path, 'w') as f:
+                json.dump(result, f, indent=2)
+            print(f"💾 Saved tracking data: {json_path}")
