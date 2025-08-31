@@ -1,0 +1,11 @@
+include README.md
+include LICENSE
+include requirements.txt
+include CHANGELOG.md
+include CONTRIBUTING.md
+recursive-include visionary *.py
+recursive-include tests *.py
+recursive-include examples *.py
+include data/*.jpg
+include data/*.mp4
+prune **/__pycache__

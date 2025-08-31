@@ -1,0 +1,6 @@
+YOLOv11, YOLOv12, RT-DETR-X 
+RTS-DETR, RT-DETR + SAHI
+SAM 2 
+FastSAM
+MobileSAMv
+Florence-2

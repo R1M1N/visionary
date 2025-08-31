@@ -19,89 +19,24 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Virtual environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-visionary-env/
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
 
 # IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-
-# Testing
-.coverage
-.pytest_cache/
-.tox/
-htmlcov/
-.nox/
-coverage.xml
-*.cover
-.hypothesis/
-
-# Documentation
-docs/_build/
-site/
 
 # OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
 # Project specific
-*.pkl
-*.pth
-*.onnx
-*.engine
-*.trt
+output/
 models/
-datasets/
-outputs/
-runs/
-wandb/
-mlruns/
-
-# Jupyter
-.ipynb_checkpoints
-*.ipynb
-
-# Data files
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.mp4
-*.avi
-*.mov
-*.mkv
-*.webm
-*.csv
-*.json
-*.xml
-*.txt
-!requirements/*.txt
-!README.md
-!LICENSE
-
-# Logs
-logs/
-*.log
-
-# Cache
-.cache/
-.mypy_cache/
-.dmypy.json
-dmypy.json
+*.weights
+*.pt

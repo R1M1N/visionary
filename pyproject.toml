@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=65.0", "wheel"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,10 +7,10 @@ name = "visionary"
 version = "0.1.0"
 description = "A comprehensive computer vision library for object detection, tracking, and video processing"
 authors = [
-    {name = "Visionary Team", email = "team@visionary.ai"}
+    {name = "R1M1", email = "r1m1@example.com"}
 ]
 readme = "README.md"
-license = {file = "LICENSE"}
+license = {text = "MIT"}
 keywords = [
     "computer-vision",
     "object-detection", 
@@ -18,7 +18,9 @@ keywords = [
     "annotation",
     "machine-learning",
     "deep-learning",
-    "video-processing"
+    "video-processing",
+    "yolo",
+    "ultralytics"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -27,29 +29,29 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 dependencies = [
-    "numpy>=1.21.0,<2.0.0",
+    "numpy>=1.21.0",
     "opencv-python>=4.5.0",
     "Pillow>=8.3.0",
     "pydantic>=2.0.0",
     "tqdm>=4.62.0",
     "requests>=2.25.0",
-    "pyyaml>=6.0"
+    "pyyaml>=6.0",
+    "ultralytics>=8.0.0"
 ]
 
 [project.optional-dependencies]
 torch = ["torch>=1.11.0", "torchvision>=0.12.0"]
 onnx = ["onnxruntime>=1.12.0"]
-ultralytics = ["ultralytics>=8.0.0"]
 transformers = ["transformers>=4.20.0"]
 video = ["ffmpeg-python>=0.2.0", "imageio>=2.25.0"]
 viz = ["matplotlib>=3.4.0", "seaborn>=0.11.0", "plotly>=5.0.0"]
@@ -62,28 +64,28 @@ dev = [
     "pre-commit>=3.0.0"
 ]
 all = [
-    "visionary[torch,onnx,ultralytics,transformers,video,viz]"
+    "visionary[torch,onnx,transformers,video,viz]"
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourorg/visionary"
-Documentation = "https://visionary.readthedocs.io"
-Repository = "https://github.com/yourorg/visionary"
-"Bug Tracker" = "https://github.com/yourorg/visionary/issues"
-Changelog = "https://github.com/yourorg/visionary/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/R1M1/visionary"
+Documentation = "https://github.com/R1M1/visionary#readme"
+Repository = "https://github.com/R1M1/visionary"
+"Bug Tracker" = "https://github.com/R1M1/visionary/issues"
+Changelog = "https://github.com/R1M1/visionary/blob/main/CHANGELOG.md"
 
 [project.scripts]
 visionary = "visionary.cli:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["."]
 
 [tool.setuptools.package-data]
 visionary = ["py.typed", "*.pyi"]
 
 [tool.black]
 line-length = 88
-target-version = ['py39']
+target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -106,7 +108,7 @@ multi_line_output = 3
 line_length = 88
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.8"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -129,7 +131,7 @@ markers = [
 ]
 
 [tool.coverage.run]
-source = ["src/visionary"]
+source = ["visionary"]
 omit = ["*/tests/*", "*/test_*"]
 
 [tool.coverage.report]
